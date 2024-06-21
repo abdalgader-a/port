@@ -1,0 +1,11 @@
+datasets>=1.17.0
+torch>=1.4.0
+tqdm~=4.66.4
+transformers~=4.40.2
+accelerate
+peft>=0.3.0
+tyro>=0.5.7
+wandb
+trl~=0.8.7.dev0
+rich~=13.7.1
+pandas~=2.2.2
