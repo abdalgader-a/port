@@ -68,4 +68,11 @@ accelerate launch -m lm_eval --model hf  --model_args pretrained=<<YOUR_BASE_PAT
 accelerate launch -m lm_eval --model hf  --model_args pretrained=<<YOUR_BASE_PATH>>,peft=<<YOUR_FINETUNED_MODEL_PATH>> --tasks arc_challenge_cot --log_samples --output_path=dpo_results --wandb_args project=<<W&B_PROJECT_NAME>>,name=<<RUN_NAME>>
 ```
 ## Citation
-_coming soon..._
+```
+@article{lahlou2024port,
+  title   = {PORT: Preference Optimization on Reasoning Traces},
+  author  = {Salem Lahlou and Abdalgader Abubaker and Hakim Hacid},
+  year    = {2024},
+  journal = {arXiv preprint arXiv: 2406.16061}
+}
+```
