@@ -1,5 +1,5 @@
 # Preference Optimization on Reasoning Traces (PORT)
-This is the official code for the Preference Optimization on Reasoning Traces (PORT) paper which proposes using preference optimization techniques to chain-of-thought reasoning steps in order to enhance the reasoning performances of language models.
+This is the official code for the [PORT: Preference Optimization on Reasoning Traces](https://arxiv.org/abs/2406.16061) paper which proposes using preference optimization techniques to chain-of-thought reasoning steps in order to enhance the reasoning performances of language models.
 
 ![alt text](port.png)
 
