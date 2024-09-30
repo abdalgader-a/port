@@ -131,10 +131,10 @@ if __name__ == "__main__":
     # Dataset
     ################
     train_data = Dataset.from_pandas(
-        data_extractor(tokenizer, scheme="sft", split=args.dataset_train_split, dataset=extractor_args.dataset),
+        data_extractor(tokenizer, scheme="sft", split=args.dataset_train_split),
         preserve_index=False)
     eval_data = Dataset.from_pandas(
-        data_extractor(tokenizer, scheme=extractor_args.scheme, model=extractor_args.llm, split=args.dataset_test_split, dataset=extractor_args.dataset),
+        data_extractor(tokenizer, scheme=extractor_args.scheme, model=extractor_args.llm, split=args.dataset_test_split),
         preserve_index=False)
 
     train_data.shuffle(seed=42)

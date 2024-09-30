@@ -154,7 +154,7 @@ if __name__ == "__main__":
     # Dataset
     ################
     train_data = Dataset.from_pandas(
-        data_extractor(tokenizer, scheme=extractor_args.scheme, model=extractor_args.llm, split='train', dataset=extractor_args.dataset),
+        data_extractor(tokenizer, scheme=extractor_args.scheme, model=extractor_args.llm, split='train'),
         preserve_index=False)
 
     train_data.shuffle(seed=42)

@@ -1,7 +1,7 @@
 """
 This file contain extractor utils used to extract the training data for different setup mentioned in the PORT paper
 """
-
+import random
 import pandas as pd
 from tqdm import tqdm
 from dataclasses import dataclass, field
@@ -23,6 +23,21 @@ def remove_tail_nulls(input_list):
 
 
 def extract(tokenizer, dataframe, scheme, llm=None):
+    if scheme == "shuffle":
+        out = pd.DataFrame(columns=['prompt', 'chosen', 'rejected'])
+        for row in tqdm(dataframe.itertuples()):
+            steps = remove_tail_nulls(row[2:dataframe.columns.get_loc('z1_c1') + 1])
+            steps = [s[:-1] if s.endswith('.') else s for s in steps]
+            for i, step in enumerate(steps):
+                pool = steps[:i + 1] + steps[i + 2:]
+                shuf_step = random.choice(pool)
+                if i == 0:
+                    out.loc[len(out)] = [row.question + " " + ". ".join(steps[:i]), step + ".", shuf_step]
+                else:
+                    out.loc[len(out)] = [row.question + " " + ". ".join(steps[:i]) + ".", step + ".", shuf_step]
+        return out
+
+
     if scheme == 'sft':
         out = pd.DataFrame(columns=['prompt', 'completion'])
         for row in tqdm(dataframe.itertuples()):
@@ -34,7 +49,7 @@ def extract(tokenizer, dataframe, scheme, llm=None):
                 else:
                     out.loc[len(out)] = [row.question + " " + ". ".join(steps[:i]) + ".", step + "."]
         return out
-    
+
     if 'kto' in scheme:
         if scheme == 'kto_corr_only_1':
             out = pd.DataFrame(columns=['prompt', 'completion', 'label'])
@@ -191,7 +206,7 @@ def extract(tokenizer, dataframe, scheme, llm=None):
 
 
 def data_extractor(tokenizer, scheme, model=None, split=None):
-    valid_schemes = ["sft", "corr_only_3", "corr_only_1", "kto_corr_only_1", 'llm_only_1', 'llm_only_3', "llms_mix_1",
+    valid_schemes = ["sft", "corr_only_3", "corr_only_1", "shuffle", "kto_corr_only_1", 'llm_only_1', 'llm_only_3', "llms_mix_1",
                      "llms_mix_3", "corr_llm_1", "corr_llm_3", 'unc_llm_only_1', 'unc_llm_only_3']
     valid_models = ['gemma2b-it', 'llama7b-it', 'llama7b', 'iterative', None]
     if scheme not in valid_schemes:
@@ -201,7 +216,7 @@ def data_extractor(tokenizer, scheme, model=None, split=None):
     if 'llm_' in scheme and model is None:
         raise ValueError('You must specify the value of --model from [\'gemma2b-it\', \'llama7b-it\', \'llama7b\', \'iterative\']')
 
-    file_name = f"../data/all_{split}.csv"
+    file_name = f"data/all_{split}.csv"
     all_data = pd.read_csv(file_name, keep_default_na=False)
     print(f"Successfully loaded {file_name} data")
 

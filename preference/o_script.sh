@@ -4,6 +4,9 @@ echo "Run *O Experiments (PEFT)"
 
 #preference
 accelerate launch dpo.py --scheme=corr_only_1 --model_name_or_path=Abdalgader/sft_falcon-11B --per_device_train_batch_size 2 --learning_rate 8e-6 --gradient_accumulation_steps 2 --logging_steps 10 --eval_steps 500 --output_dir=corrupted_corr_only_1_falcon11b_lora_beta0.2_1epoch --optim=rmsprop --warmup_steps=10 --bf16 --logging_first_step --no_remove_unused_columns --use_peft --lora_r=64 --lora_alpha=16 --max_prompt_length=1024 --max_length=2048 --report_to=wandb --num_train_epochs 1 --beta 0.2
+#shuffle
+accelerate launch dpo.py --scheme=shuffle --model_name_or_path=Abdalgader/sft_falcon-11B --per_device_train_batch_size 2 --learning_rate 8e-6 --gradient_accumulation_steps 2 --logging_steps 10 --eval_steps 500 --output_dir=corrupted_shuffle_falcon11b_lora_beta0.2_1epoch --optim=rmsprop --warmup_steps=10 --bf16 --logging_first_step --no_remove_unused_columns --use_peft --lora_r=64 --lora_alpha=16 --max_prompt_length=1024 --max_length=2048 --report_to=wandb --num_train_epochs 1 --beta 0.2
+
 
 #kto
 accelerate launch kto.py --scheme=kto_corr_only_1 --model_name_or_path=Abdalgader/sft_falcon-11B --per_device_train_batch_size 2 --learning_rate 8e-6 --gradient_accumulation_steps 2 --logging_steps 10 --eval_steps 500 --output_dir=kto_corr_only_1_falcon_11B_gsm8k_beta0.5_1epochs --optim=rmsprop --warmup_steps=10 --bf16 --logging_first_step --no_remove_unused_columns --use_peft --lora_r=64 --lora_alpha=16 --max_prompt_length=1024 --max_length=2048 --report_to=wandb --num_train_epochs 1 --beta 0.5
